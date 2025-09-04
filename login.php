@@ -19,9 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['role'] = $user['role'];
 
         if ($user['role'] === 'admin') {
+            header("location: admin/index.php");
             // ยังไม่ได้กำหนดการเปลี่ยนเส้นทางสำหรับผู้ดูแลระบบ
         } else {
-            header("location: index1.php");
+            header("location: index.php");
         }
         exit();
     } else {
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,33 +43,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         body {
             /* การไล่ระดับสีจากน้ำเงินเข้มไปหาน้ำเงินอ่อน */
-            background: linear-gradient(to right, #007bff, #4db8ff); 
+            background: linear-gradient(to right, #007bff, #4db8ff);
             min-height: 100vh;
         }
+
         .login-container {
             min-height: 100vh;
         }
+
         .login-card {
             max-width: 400px;
             width: 100%;
-            background-color: #ffffff; /* การ์ดสีขาว */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            /* การ์ดสีขาว */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .form-label, .btn-link {
-            color: #007bff; /* ข้อความและลิงก์สีน้ำเงินเข้ม */
+
+        .form-label,
+        .btn-link {
+            color: #007bff;
+            /* ข้อความและลิงก์สีน้ำเงินเข้ม */
         }
+
         .btn-primary {
-            background-color: #4db8ff; /* ปุ่มสีฟ้าอ่อน */
+            background-color: #4db8ff;
+            /* ปุ่มสีฟ้าอ่อน */
             border-color: #4db8ff;
             font-weight: bold;
             color: #fff;
         }
+
         .btn-primary:hover {
-            background-color: #007bff; /* เมื่อเมาส์ชี้ ปุ่มจะเปลี่ยนเป็นสีน้ำเงินเข้ม */
+            background-color: #007bff;
+            /* เมื่อเมาส์ชี้ ปุ่มจะเปลี่ยนเป็นสีน้ำเงินเข้ม */
             border-color: #007bff;
         }
     </style>
 </head>
+
 <body>
     <div class="d-flex justify-content-center align-items-center login-container">
         <div class="card p-4 login-card">
@@ -93,7 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" class="row g-3">
                     <div class="col-12">
                         <label for="username_or_email" class="form-label">ชื่อผู้ใช้หรืออีเมล</label>
-                        <input type="text" name="username_or_email" id="username_or_email" class="form-control" required>
+                        <input type="text" name="username_or_email" id="username_or_email" class="form-control"
+                            required>
                     </div>
                     <div class="col-12">
                         <label for="password" class="form-label">รหัสผ่าน</label>
@@ -109,9 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
