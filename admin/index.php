@@ -1,7 +1,6 @@
 <?php
 require_once '../config.php';//เชื่อมฐานข้อมูล
 require_once 'auth_admin.php';//เชื่อมฐานข้อมูล
-session_start();
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +20,7 @@ session_start();
             <a href="users.php" class="btn btn-warning w-100">จัดกำรสมำชกิ</a>
         </div>
         <div class="col-md-4 mb-3">
-            <a href="categories.php" class="btn btn-dark w-100">จัดกำรหมวดหมู่</a>
+            <a href="category.php" class="btn btn-dark w-100">จัดกำรหมวดหมู่</a>
         </div>
         <div class="col-md-4 mb-3">
             <a href="orders.php" class="btn btn-success w-100">จัดกำรค ำสั่งซอื้ </a>
