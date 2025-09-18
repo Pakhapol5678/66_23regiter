@@ -16,7 +16,9 @@ $stmt->execute([$product_id]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 $isLoggedIn = isset($_SESSION['user_id']);
 
-
+$img = !empty($product['image'])
+    ? 'product_images/' . rawurlencode($product['image'])
+    : 'product_images/no-image.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="th">
@@ -31,6 +33,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <a href="index.php" class="btn btn-secondary mb-3">← กลับหนำ้รำยกำรสนิ คำ้</a>
     <div class="card">
         <div class="card-body">
+            <img src="<?= $img ?>">
             <h3 class="card-title">
                 <?= htmlspecialchars($product['product_name']) ?>
             </h3>
