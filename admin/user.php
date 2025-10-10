@@ -54,7 +54,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a href="edit_user.php?id=<?= $user['user_id'] ?>" class="btn btn-sm btn-warning">แก ้ไข
                             </a>
                             <a href="users.php?delete=<?= $user['user_id'] ?>" class="btn btn-sm btn-danger"
-                                onclick="return confirm('คุณต้องการลบสมาชิกหรือไม่?' ่ )">ลบ</a>
+                                onclick="return confirm('คุณต้องการลบสินค้านี้ออกจากตะกร้าหรือไม่?')">ลบ</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

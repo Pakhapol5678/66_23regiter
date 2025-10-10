@@ -1,24 +1,49 @@
+
 <?php
 session_start();
 require_once 'config.php';
-// ตรวจสอบสถานะการเข้าสู่ระบบ
 $isLoggedIn = isset($_SESSION['user_id']);
-
-// ดึงข้อมูลสินค้าจากฐานข้อมูลจริง
-// โค้ดนี้มีความเสี่ยงต่อ SQL Injection หาก 'config.php' ใช้ PDO/MySQLi โดยไม่มีการเตรียมคำสั่ง
-// แต่เนื่องจากเป็นคำสั่ง SELECT ธรรมดาที่ไม่มีตัวแปรจากผู้ใช้ จึงถือว่าปลอดภัยในระดับหนึ่ง
-$stmt = $pdo->query("SELECT p.*, c.category_name FROM products p LEFT JOIN categories c ON p.category_id = c.category_id ORDER BY p.created_at DESC");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// ตัวอย่างข้อมูลสินค้า (สามารถดึงจากฐานข้อมูลจริงได้)
+$products = [
+    [
+        'image' => 'product_images/no-image.jpg',
+        'name' => 'เสื้อยืดแฟชั่น',
+        'category' => 'เสื้อผ้า',
+        'price' => 299.00,
+        'desc' => 'เสื้อยืดผ้าคอตตอน 100% ใส่สบาย ระบายอากาศดี',
+        'isNew' => true,
+        'isHot' => false
+    ],
+    [
+        'image' => 'product_images/no-image.jpg',
+        'name' => 'รองเท้าผ้าใบ',
+        'category' => 'รองเท้า',
+        'price' => 899.00,
+        'desc' => 'รองเท้าผ้าใบดีไซน์ทันสมัย พื้นนุ่ม ใส่เดินสบาย',
+        'isNew' => false,
+        'isHot' => true
+    ],
+    [
+        'image' => 'product_images/no-image.jpg',
+        'name' => 'กระเป๋าสะพาย',
+        'category' => 'กระเป๋า',
+        'price' => 499.00,
+        'desc' => 'กระเป๋าสะพายข้างแฟชั่น ใส่ของได้เยอะ',
+        'isNew' => false,
+        'isHot' => false
+    ]
+];
 ?>
+
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>หน้าหลัก - ร้านค้าออนไลน์</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>หน้าหลัก</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -34,7 +59,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background: linear-gradient(120deg, #fff 80%, #e3e3e3 100%);
             padding: 2.5rem 2rem 2rem 2rem;
             border-radius: 1rem;
-            box-shadow: 0 6px 24px rgba(60,60,60,1.10), 0 1.5px 0 #bc4ee7ff;
+            box-shadow: 0 6px 24px rgba(60,60,60,0.10), 0 1.5px 0 #232323;
             text-align: center;
             border-top: 6px solid #c850c0;
         }
@@ -51,7 +76,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-size: 1.1rem;
             margin-top: 1rem;
             margin-bottom: 2rem;
-            color: #5a5959ff;
+            color: #555;
         }
         .btn-success {
             background: linear-gradient(90deg, #c850c0 0%, #ffb6b9 100%);
@@ -110,7 +135,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .card-img-top {
             border-radius: 1rem 1rem 0 0;
             object-fit: cover;
-            height: 250px;
+            height: 180px;
             box-shadow: 0 4px 16px 0 rgba(200,80,192,0.13), 0 1.5px 0 #c850c0;
             border: 3px solid #fff;
             background: linear-gradient(120deg, #fff 60%, #f8e1ff 100%);
@@ -143,7 +168,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .footer {
             color:#232323; font-size:14px; opacity:0.7;
         }
-        </style>
+    </style>
 </head>
 
 <body class="container mt-4">
@@ -163,29 +188,24 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
                 </div>
             </div>
-            <p class="mb-4">ระบบร้านหนังสือออนไลน์ที่ใช้งานง่ายและปลอดภัย<br>เลือกซื้อสินค้าได้ตลอด 24 ชั่วโมง</p>
+            <p class="mb-4">ระบบร้านค้าออนไลน์ที่ใช้งานง่ายและปลอดภัย<br>เลือกซื้อสินค้าได้ตลอด 24 ชั่วโมง</p>
+
             <div class="row g-4 justify-content-center">
                 <?php foreach ($products as $p): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="card product-card h-100">
-                        <img src="<?= htmlspecialchars(!empty($p['image']) ? 'product_images/' . rawurlencode($p['image']) : 'product_images/no-image.jpg') ?>" class="card-img-top" alt="<?= htmlspecialchars($p['product_name']) ?>">
+                        <img src="<?= htmlspecialchars($p['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($p['name']) ?>">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-1"> <?= htmlspecialchars($p['product_name']) ?> </h5>
-                            <div class="mb-2 text-secondary" style="font-size:0.95em;">หมวดหมู่: <?= htmlspecialchars($p['category_name']) ?></div>
-                            <div class="mb-2 text-truncate" style="font-size:0.97em;"> <?= htmlspecialchars($p['description']) ?> </div>
-                            <?php
-                                // ตรวจสอบสินค้าใหม่ (สร้างภายใน 7 วัน)
-                                $isNew = isset($p['created_at']) && (time() - strtotime($p['created_at']) <= 7 * 24 * 3600);
-                                // ตรวจสอบสินค้ายอดนิยม/ใกล้หมด (สต็อก 1-4)
-                                $isHot = (int) $p['stock'] > 0 && (int) $p['stock'] < 5;
-                            ?>
-                            <?php if ($isNew): ?>
+                            <h5 class="card-title mb-1"> <?= htmlspecialchars($p['name']) ?> </h5>
+                            <div class="mb-2 text-secondary" style="font-size:0.95em;">หมวดหมู่: <?= htmlspecialchars($p['category']) ?></div>
+                            <div class="mb-2 text-truncate" style="font-size:0.97em;"> <?= htmlspecialchars($p['desc']) ?> </div>
+                            <?php if ($p['isNew']): ?>
                                 <span class="badge bg-success mb-2">NEW</span>
-                            <?php elseif ($isHot): ?>
+                            <?php elseif ($p['isHot']): ?>
                                 <span class="badge bg-danger mb-2">HOT</span>
                             <?php endif; ?>
                             <div class="price mb-3"> <?= number_format($p['price'], 2) ?> บาท</div>
-                            <a href="product_detail.php?id=<?= (int)$p['product_id'] ?>" class="btn btn-primary mt-auto">ดูรายละเอียด</a>
+                            <a href="#" class="btn btn-primary mt-auto">ดูรายละเอียด</a>
                         </div>
                     </div>
                 </div>
@@ -193,11 +213,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
         <footer class="footer text-center mt-4 mb-2">
-            © ระบบร้านหนังสือออนไลน์ 
+            © 2025 ระบบร้านค้าออนไลน์ | Nawapath
         </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
 </body>
 
